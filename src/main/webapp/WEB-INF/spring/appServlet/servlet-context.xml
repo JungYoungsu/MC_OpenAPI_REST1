@@ -40,10 +40,14 @@
 	<beans:bean id="xmlView"
 		class="org.springframework.web.servlet.view.xml.MarshallingView">
 		<beans:constructor-arg ref="jaxb2"></beans:constructor-arg>
+		<beans:property name="modelKey" value="data"></beans:property>
 	</beans:bean>
 
 	<beans:bean id="jsonView"
 		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<beans:property name="modelKey" value="data"></beans:property>
+		<beans:property name="extractValueFromSingleKeyModel"
+			value="true"></beans:property>
 	</beans:bean>
 
 
