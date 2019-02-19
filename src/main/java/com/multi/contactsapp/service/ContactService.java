@@ -7,33 +7,69 @@ import org.springframework.stereotype.Service;
 
 import com.multi.contactsapp.dao.ContactDAO;
 import com.multi.contactsapp.domain.Contact;
+import com.multi.contactsapp.domain.ContactList;
+import com.multi.contactsapp.domain.Result;
 
 @Service
 public class ContactService {
 	@Autowired
 	private ContactDAO contactDAO;
 
-	public List<Contact> getContactList() {
-		return contactDAO.getContactList();
+	public ContactList getContactList() {
+		List<Contact> contacts = contactDAO.getContactList();
+		return new ContactList(0, 0, contacts.size(), contacts);
 	}
 
-	public List<Contact> getContactList(int pageNo, int pageSize) {
-		return contactDAO.getContactList(pageNo, pageSize);
+	public ContactList getContactList(int pageNo, int pageSize) {
+		List<Contact> contacts = contactDAO.getContactList(pageNo, pageSize);
+		int totalCount = contactDAO.getContactCount();
+		return new ContactList(pageNo, pageSize, totalCount, contacts);
 	}
 
 	public Contact getContactOne(Contact c) {
 		return contactDAO.getContactOne(c);
 	}
 
-	public int insertContact(Contact c) {
-		return contactDAO.insertContact(c);
+	public Result insertContact(Contact c) {
+		Result result = new Result("ok", "", "");
+		try {
+			int no = contactDAO.insertContact(c);
+			result.setMessage("연락처 추가 성공. 추가된 연락처의 일련번호 :" + no);
+			result.setKey("" + no);
+		} catch (Exception ex) {
+			result.setStatus("fail");
+			result.setMessage(ex.getMessage());
+			result.setKey("");
+		}
+		return result;
 	}
 
-	public int updateContact(Contact c) {
-		return contactDAO.updateContact(c);
+	public Result updateContact(Contact c) {
+		Result result = new Result("ok", "", "");
+		try {
+			int count = contactDAO.updateContact(c);
+			result.setMessage(count + "건의 연락처 변경 성공");
+			result.setKey(c.getNo() + "");
+		} catch (Exception ex) {
+			result.setStatus("fail");
+			result.setMessage(ex.getMessage());
+			result.setKey("");
+		}
+		return result;
 	}
 
-	public int deleteContact(Contact c) {
-		return contactDAO.deleteContact(c);
+	public Result deleteContact(Contact c) {
+		Result result = new Result("ok", "", "");
+		try {
+			int count = contactDAO.deleteContact(c);
+			result.setMessage(count + "건의 연락처 삭제 성공");
+			result.setKey(c.getNo() + "");
+		} catch (Exception ex) {
+			result.setStatus("fail");
+			result.setMessage(ex.getMessage());
+			result.setKey("");
+		}
+		return result;
 	}
+
 }

@@ -1,6 +1,14 @@
 package com.multi.contactsapp.domain;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "contact")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Contact {
+	@XmlAttribute
 	private int no;
 	private String name;
 	private String tel;
