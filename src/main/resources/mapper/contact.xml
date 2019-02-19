@@ -13,7 +13,7 @@
 		parameterType="Contact">
 		SELECT no, name, tel, address
 		FROM contact
-		WEHRE no=#{no}
+		WHERE no=#{no}
 	</select>
 	<select id="selectcnt" resultType="int">
 		SELECT count(*)
